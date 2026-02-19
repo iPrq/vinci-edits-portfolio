@@ -8,7 +8,6 @@ interface GlassSurfaceProps {
   className?: string;
   opacity?: number;
 
-  // Optional advanced props (future-proof)
   width?: number;
   height?: number;
   borderRadius?: number;
@@ -24,22 +23,31 @@ interface GlassSurfaceProps {
 export function GlassSurface({
   children,
   className = "",
-  opacity = 0.15,
+  opacity = 0.06,
+  borderRadius = 9999,
   width,
   height,
-  borderRadius,
   ...props
 }: GlassSurfaceProps) {
   return (
     <GlassSurfaceRB
-      className={className}
+      className={`
+        backdrop-blur-xl
+        border border-white/10
+        shadow-[0_8px_30px_rgba(0,0,0,0.35)]
+        bg-slate-900/60
+        ${className}
+      `}
       opacity={opacity}
-      width={width}
-      height={height}
       borderRadius={borderRadius}
+      {...(width ? { width } : {})}
+      {...(height ? { height } : {})}
       {...props}
     >
       {children}
     </GlassSurfaceRB>
   );
 }
+
+
+
