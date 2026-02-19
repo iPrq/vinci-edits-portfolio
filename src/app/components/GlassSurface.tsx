@@ -23,7 +23,7 @@ interface GlassSurfaceProps {
 export function GlassSurface({
   children,
   className = "",
-  opacity = 0.06,
+  opacity = 0.01,
   borderRadius = 9999,
   width,
   height,
