@@ -1,6 +1,7 @@
 import GlassSurface from '../components/GlassSurface';
 import { LiquidBackground } from './components/LiquidBackground';
 import SpotlightCard from '../import-components/SpotlightCard';
+import { ShortsSection } from './components/ShortFormSection';
 import logo from '../assets/log.png';
 
 export default function App() {
@@ -149,6 +150,8 @@ export default function App() {
 
           </SpotlightCard>
         </section>
+
+        <ShortsSection />
 
       </div>
     </div>
