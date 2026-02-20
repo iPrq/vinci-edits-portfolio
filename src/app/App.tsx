@@ -2,12 +2,14 @@ import GlassSurface from '../components/GlassSurface';
 import { LiquidBackground } from './components/LiquidBackground';
 import SpotlightCard from '../import-components/SpotlightCard';
 import { ShortsSection } from './components/ShortFormSection';
+import { PostsSection } from './components/PostsSection';
+import { ContactSection } from './components/ContactSection';
 import logo from '../assets/log.png';
 import logo2 from '../assets/logo2.png';
 
 export default function App() {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
+    <div className="relative min-h-screen w-full overflow-hidden" style={{ fontFamily: 'Inter, sans-serif' }}>
 
       {/* Liquid Background */}
       <LiquidBackground />
@@ -152,6 +154,8 @@ export default function App() {
         </section>
 
         <ShortsSection />
+        <PostsSection />
+        <ContactSection />
 
       </div>
     </div>
