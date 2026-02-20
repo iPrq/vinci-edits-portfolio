@@ -62,7 +62,7 @@ export function Navbar({ logo }: { logo: string }) {
             
             {/* Sliding Background Indicator */}
             <div 
-                className="absolute top-1.5 bottom-1.5 rounded-full bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] will-change-[left,width]"
+                className="absolute top-1.5 bottom-1.5 rounded-full bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-[left,width,opacity] duration-500 ease-in-out will-change-[left,width]"
                 style={{ 
                     left: indicatorStyle.left, 
                     width: indicatorStyle.width,
