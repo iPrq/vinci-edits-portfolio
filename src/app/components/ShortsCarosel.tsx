@@ -19,7 +19,7 @@ const baseShort: Omit<Short, 'id'> = {
 
 const shorts: Short[] = [
   // Existing local videos
-  ...Array.from({ length: 3 }, (_, index) => ({
+  ...Array.from({ length: 1 }, (_, index) => ({
     id: String(index + 1),
     ...baseShort,
     title: 'markus_baulig',

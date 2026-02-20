@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import ClickSpark from '@/components/ClickSpark';
 
 export function Navbar({ logo }: { logo: string }) {
   const [activeTab, setActiveTab] = useState('home');
@@ -58,9 +59,10 @@ export function Navbar({ logo }: { logo: string }) {
       
       <div className="relative">
           <div className="nav-glow"></div>
-          <div className="glass-nav relative bg-black/40 rounded-full flex items-center p-1.5 justify-between">
-            
-            {/* Sliding Background Indicator */}
+          <ClickSpark sparkColor="#ec4899" sparkSize={10} sparkRadius={20} sparkCount={12} duration={400}>
+            <div className="glass-nav relative bg-black/40 rounded-full flex items-center p-1.5 justify-between">
+              
+              {/* Sliding Background Indicator */}
             <div 
                 className="absolute top-1.5 bottom-1.5 rounded-full bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-[left,width,opacity] duration-500 ease-in-out will-change-[left,width]"
                 style={{ 
@@ -76,7 +78,7 @@ export function Navbar({ logo }: { logo: string }) {
                 <a
                     key={tab.id}
                     href={tab.href}
-                    ref={(el) => (itemsRef.current[idx] = el)}
+                    ref={(el) => { itemsRef.current[idx] = el; }}
                     onClick={(e) => {
                         setActiveTab(tab.id);
                         setIndicatorStyle({
@@ -104,6 +106,7 @@ export function Navbar({ logo }: { logo: string }) {
                 )
             })}
           </div>
+          </ClickSpark>
       </div>
     </header>
   );

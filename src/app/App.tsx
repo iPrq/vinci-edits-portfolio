@@ -1,6 +1,7 @@
-import GlassSurface from '../components/GlassSurface';
+
 import { Navbar } from './components/Navbar';
 import { LiquidBackground } from './components/LiquidBackground';
+import ClickSpark from '@/components/ClickSpark';
 import SpotlightCard from '../import-components/SpotlightCard';
 import { ShortsSection } from './components/ShortFormSection';
 import { PostsSection } from './components/PostsSection';
@@ -15,31 +16,12 @@ export default function App() {
       {/* Liquid Background */}
       <LiquidBackground />
 
-      <div className="relative z-10 flex flex-col min-h-screen">
-        
-        <Navbar logo={logo2} />
-
-        {/* ===== Navbar ===== */}
-        {/* <header className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-center">
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 shadow-lg max-w-fit mx-auto px-8 py-3 rounded-full flex items-center justify-between gap-8 lg:gap-12">
-           
-            <a href="#" className="text-xl font-bold text-gray-100 flex items-center group">
-                <span className="text-2xl text-purple-400 leading-none mr-2 group-hover:text-pink-400 transition-colors">✦</span>
-                <span className="text-lg hidden md:block group-hover:text-white transition-colors tracking-wide">Vinci Edits</span>
-            </a>
-            
-            
-            <nav className="flex items-center gap-6 lg:gap-10">
-                <a href="#works" className="text-gray-300 hover:text-purple-400 transition-colors duration-300 ease-in-out text-sm font-medium">Portfolio</a>
-                <a href="#contact" className="px-5 py-2 rounded-full border border-white/10 bg-white/5 text-purple-300 hover:text-white font-medium hover:border-purple-500/50 hover:bg-purple-500/10 transition-all duration-300 ease-in-out whitespace-nowrap text-sm">
-                    Contact Me
-                </a>
-            </nav>
-          </div>
-        </header> */}
-
-        {/* ===== Hero Statement ===== */}
-        <main className="flex-1 flex flex-col items-center justify-center px-6 text-center pt-60 pb-16">
+      <ClickSpark sparkColor="#fff" sparkSize={10} sparkRadius={15} sparkCount={8} duration={400}>
+        <div className="relative z-10 flex flex-col min-h-screen">
+          <Navbar logo={logo2} />
+          
+          {/* ===== Hero Statement ===== */}
+          <main className="flex-1 flex flex-col items-center justify-center px-6 text-center pt-60 pb-16">
           
           <h1 className="
             text-3xl md:text-5xl
@@ -145,6 +127,7 @@ export default function App() {
         </div>
 
       </div>
+      </ClickSpark>
     </div>
   );
 }
