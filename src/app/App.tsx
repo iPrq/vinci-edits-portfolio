@@ -1,13 +1,14 @@
 import GlassSurface from '../components/GlassSurface';
+import { Navbar } from './components/Navbar';
 import { LiquidBackground } from './components/LiquidBackground';
 import SpotlightCard from '../import-components/SpotlightCard';
 import { ShortsSection } from './components/ShortFormSection';
 import { PostsSection } from './components/PostsSection';
 import { ContactSection } from './components/ContactSection';
-import logo from '../assets/log.png';
-import logo2 from '../assets/logo2.png';
 
 export default function App() {
+  const logo = '/static-assets/log.png';
+  const logo2 = '/static-assets/logo2.png';
   return (
     <div className="relative min-h-screen w-full overflow-hidden" style={{ fontFamily: 'Inter, sans-serif' }}>
 
@@ -15,46 +16,27 @@ export default function App() {
       <LiquidBackground />
 
       <div className="relative z-10 flex flex-col min-h-screen">
+        
+        <Navbar logo={logo2} />
 
         {/* ===== Navbar ===== */}
-        <header className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-center">
-          <GlassSurface
-            width="auto"
-            height="auto"
-            borderRadius={50}
-            borderWidth={0}
-            displace={0.5}
-            distortionScale={-180}
-            redOffset={0}
-            greenOffset={10}
-            blueOffset={20}
-            brightness={20}
-            opacity={0.3}
-            mixBlendMode="screen"
-            className="px-12 py-1 min-w-fit"
-          >
-            <nav className="flex items-center gap-8">
-              
-              <a className="text-white/60 hover:text-white/80 transition-colors whitespace-nowrap cursor-pointer inline-flex items-center justify-center gap-3 leading-none">
-                <img src={logo2} alt="Vinci Edits logo" className="w-9 h-9 object-contain shrink-0" />
-                <span className="leading-none">Vinci Edits</span>
-              </a>
-
-              <div className="w-px h-6 bg-white/15" />
-
-              <span className="text-white/80 font-semibold tracking-wide whitespace-nowrap">
-                Contact me 
-              </span>
-
-              <div className="w-px h-6 bg-white/15" />
-
-              <a className="text-white/60 hover:text-white/80 transition-colors whitespace-nowrap cursor-pointer">
-                My Works
-              </a>
-
+        {/* <header className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-center">
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 shadow-lg max-w-fit mx-auto px-8 py-3 rounded-full flex items-center justify-between gap-8 lg:gap-12">
+           
+            <a href="#" className="text-xl font-bold text-gray-100 flex items-center group">
+                <span className="text-2xl text-purple-400 leading-none mr-2 group-hover:text-pink-400 transition-colors">✦</span>
+                <span className="text-lg hidden md:block group-hover:text-white transition-colors tracking-wide">Vinci Edits</span>
+            </a>
+            
+            
+            <nav className="flex items-center gap-6 lg:gap-10">
+                <a href="#works" className="text-gray-300 hover:text-purple-400 transition-colors duration-300 ease-in-out text-sm font-medium">Portfolio</a>
+                <a href="#contact" className="px-5 py-2 rounded-full border border-white/10 bg-white/5 text-purple-300 hover:text-white font-medium hover:border-purple-500/50 hover:bg-purple-500/10 transition-all duration-300 ease-in-out whitespace-nowrap text-sm">
+                    Contact Me
+                </a>
             </nav>
-          </GlassSurface>
-        </header>
+          </div>
+        </header> */}
 
         {/* ===== Hero Statement ===== */}
         <main className="flex-1 flex flex-col items-center justify-center px-6 text-center pt-60 pb-16">
@@ -88,7 +70,7 @@ export default function App() {
         </main>
 
         {/* ===== About Me Section ===== */}
-        <section className="flex justify-center px-6 pb-24 pt-40">
+        <section id="about" className="flex justify-center px-6 pb-24 pt-40">
           <SpotlightCard className="max-w-6xl w-full p-12">
             
             <div className="flex flex-col md:flex-row items-center gap-10">
@@ -153,9 +135,14 @@ export default function App() {
           </SpotlightCard>
         </section>
 
-        <ShortsSection />
-        <PostsSection />
-        <ContactSection />
+        <div id="works">
+          <ShortsSection />
+          <PostsSection />
+        </div>
+        
+        <div id="contact">
+          <ContactSection />
+        </div>
 
       </div>
     </div>
