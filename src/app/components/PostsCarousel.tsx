@@ -25,8 +25,28 @@ export function PostsCarousel() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const posts = useMemo<PostItem[]>(() => {
+    const seen = new Set<string>();
+
     return Object.entries(postImageModules)
-      .sort(([pathA], [pathB]) => extractOrder(pathA) - extractOrder(pathB))
+      .sort(([pathA], [pathB]) => {
+        // Sort by filename number first to keep order consistent
+        const getNum = (p: string) => {
+          const name = p.split('/').pop()?.split('.')[0] || '0';
+          return parseInt(name) || 0;
+        };
+        return getNum(pathA) - getNum(pathB);
+      })
+      .filter(([path]) => {
+        const fileName = path.split('/').pop() ?? '';
+        const baseName = fileName.split('.')[0] ?? '';
+        
+        // If we already saw this base name (e.g. '3'), skip duplicates
+        if (seen.has(baseName)) {
+            return false;
+        }
+        seen.add(baseName);
+        return true;
+      })
       .map(([path, imageSrc]) => {
         const fileName = path.split('/').pop() ?? '';
         const baseName = fileName.split('.')[0] ?? 'Post';
@@ -89,7 +109,7 @@ export function PostsCarousel() {
             <img src={post.imageSrc} alt={post.title} className="w-full h-full object-cover" loading="lazy" />
 
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
-              <h3 className="text-white font-semibold line-clamp-2">{post.title}</h3>
+              {/* <h3 className="text-white font-semibold line-clamp-2">{post.title}</h3> */}
             </div>
           </div>
         ))}

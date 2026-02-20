@@ -1,0 +1,44 @@
+[
+
+{
+    "id": "insta-3",
+    "title": "Steve Jobs",
+    "thumbnailSrc": "/thumbnails/stevejobs.png",
+    "embedUrl": "https://www.instagram.com/p/DQmIOuPEoH7/embed/",
+    "channel": "Instagram",
+    "type": "instagram"
+  },
+  {
+    "id": "insta-4",
+    "title": "Sydney Sweeney",
+    "thumbnailSrc": "/thumbnails/sydneysweeny.png",
+    "embedUrl": "https://www.instagram.com/p/DQBXXjVEkZJ/embed/",
+    "channel": "Instagram",
+    "type": "instagram"
+  },
+  {
+    "id": "insta-5",
+    "title": "markus_baulig",
+    "thumbnailSrc": "/thumbnails/markus1.png",
+    "embedUrl": "https://www.instagram.com/p/DTLov-bDTzn/embed/",
+    "channel": "Instagram",
+    "type": "instagram"
+  },
+  {
+    "id": "insta-6",
+    "title": "markus_baulig",
+    "thumbnailSrc": "/thumbnails/markus2.png",
+    "embedUrl": "https://www.instagram.com/p/DTk0jpwjVpo/embed/",
+    "channel": "Instagram",
+    "type": "instagram"
+  },
+  {
+    "id": "insta-7",
+    "title": "markus_baulig",
+    "thumbnailSrc": "/thumbnails/markus3.png",
+    "embedUrl": "https://www.instagram.com/p/DUlzSEBDaT0/embed/",
+    "channel": "Instagram",
+    "type": "instagram"
+  }
+]
+
