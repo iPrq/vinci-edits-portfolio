@@ -1,12 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
-interface PostItem {
-  id: string;
-  title: string;
-  imageSrc: string;
-}
-
 const postImageModules = import.meta.glob('../../assets/posts/*.{png,jpg,jpeg,webp}', {
   eager: true,
   import: 'default'
@@ -19,12 +13,14 @@ const extractOrder = (path: string) => {
   return Number.isNaN(parsed) ? Number.MAX_SAFE_INTEGER : parsed;
 };
 
-export function PostsCarousel() {
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [activePost, setActivePost] = useState<PostItem | null>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+export interface PostItem {
+  id: string;
+  title: string;
+  imageSrc: string;
+}
 
-  const posts = useMemo<PostItem[]>(() => {
+export const usePosts = () => {
+    return useMemo<PostItem[]>(() => {
     const seen = new Set<string>();
 
     return Object.entries(postImageModules)
@@ -58,6 +54,14 @@ export function PostsCarousel() {
         };
       });
   }, []);
+}
+
+export function PostsCarousel() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [activePost, setActivePost] = useState<PostItem | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const posts = usePosts();
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (!scrollContainerRef.current) return;

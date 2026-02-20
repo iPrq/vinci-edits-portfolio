@@ -17,7 +17,7 @@ const baseShort: Omit<Short, 'id'> = {
   type: 'video'
 };
 
-const shorts: Short[] = [
+export const shorts: Short[] = [
   // Existing local videos
   ...Array.from({ length: 1 }, (_, index) => ({
     id: String(index + 1),
@@ -135,23 +135,25 @@ export function YouTubeShortsCarousel() {
 
       {activeShort && (
         <div
-          className="fixed inset-0 z-[120] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-[120] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200"
           onClick={() => setActiveShort(null)}
         >
           <div
-            className="relative w-full max-w-md md:max-w-lg rounded-2xl overflow-hidden border border-white/15 bg-black"
-            onClick={(event) => event.stopPropagation()}
+            className="relative w-full max-w-sm md:max-w-md max-h-[90vh] rounded-3xl overflow-hidden border border-white/10 bg-black shadow-2xl animate-in zoom-in-95 duration-300"
+            onClick={(e) => e.stopPropagation()}
           >
-            <button
-              onClick={() => setActiveShort(null)}
-              className="absolute top-3 right-3 z-30 w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-colors"
-              aria-label="Close video modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <div className="absolute top-4 right-4 z-50">
+                <button
+                onClick={() => setActiveShort(null)}
+                className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-all active:scale-95 group"
+                aria-label="Close"
+                >
+                <X className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
+                </button>
+            </div>
 
             {activeShort.type === 'instagram' ? (
-              <div className="w-full h-[85vh] bg-black flex items-center justify-center">
+              <div className="w-full h-[80vh] md:h-[85vh] bg-black flex items-center justify-center">
                 <iframe
                   src={activeShort.embedUrl}
                   className="w-full h-full border-0"
@@ -165,7 +167,7 @@ export function YouTubeShortsCarousel() {
                 controls
                 autoPlay
                 playsInline
-                className="w-full max-h-[85vh] object-contain bg-black"
+                className="w-full h-full max-h-[85vh] object-contain bg-black"
               />
             )}
           </div>
