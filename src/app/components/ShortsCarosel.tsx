@@ -1,21 +1,17 @@
 import { useState, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Play, Heart, Share2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
 import shortVideo from '../../assets/videos/video1.mp4';
 
 interface Short {
   id: string;
   title: string;
   videoSrc: string;
-  views: string;
-  likes: string;
   channel: string;
 }
 
 const baseShort: Omit<Short, 'id'> = {
   title: 'Video Title',
   videoSrc: shortVideo,
-  views: '0',
-  likes: '0',
   channel: 'Creator Name'
 };
 
@@ -26,11 +22,12 @@ const mockShorts: Short[] = Array.from({ length: 6 }, (_, index) => ({
 
 export function YouTubeShortsCarousel() {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [activeShort, setActiveShort] = useState<Short | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 320; // width of one card + gap
+      const scrollAmount = 272; // width of one card + gap
       const newPosition = direction === 'left' 
         ? Math.max(0, scrollPosition - scrollAmount)
         : Math.min(
@@ -68,19 +65,20 @@ export function YouTubeShortsCarousel() {
       {/* Scrollable Container */}
       <div 
         ref={scrollContainerRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-2 py-2"
+        className="flex gap-3 overflow-x-auto scrollbar-hide scroll-smooth px-2 py-2"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {mockShorts.map((short) => (
           <div 
             key={short.id}
-            className="flex-shrink-0 w-[300px] h-[500px] rounded-2xl overflow-hidden relative group/card cursor-pointer hover:scale-105 transition-transform duration-300"
+            onClick={() => setActiveShort(short)}
+            className="flex-shrink-0 w-[260px] h-[430px] rounded-2xl overflow-hidden relative group/card cursor-pointer hover:scale-105 transition-transform duration-300"
           >
             {/* Video */}
             <video
               src={short.videoSrc}
-              controls
               muted
+              loop
               playsInline
               preload="metadata"
               className="w-full h-full object-cover"
@@ -101,28 +99,39 @@ export function YouTubeShortsCarousel() {
                   <span className="text-white text-sm font-medium">{short.channel}</span>
                 </div>
                 <h3 className="text-white font-semibold line-clamp-2">{short.title}</h3>
-                <div className="flex items-center gap-4 text-white/70 text-xs">
-                  <span>{short.views} views</span>
-                  <div className="flex items-center gap-1">
-                    <Heart className="w-3 h-3" />
-                    <span>{short.likes}</span>
-                  </div>
-                </div>
               </div>
-            </div>
-
-            {/* Quick Actions - Show on hover */}
-            <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover/card:opacity-100 transition-opacity">
-              <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors">
-                <Heart className="w-5 h-5 text-white" />
-              </button>
-              <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors">
-                <Share2 className="w-5 h-5 text-white" />
-              </button>
             </div>
           </div>
         ))}
       </div>
+
+      {activeShort && (
+        <div
+          className="fixed inset-0 z-[120] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setActiveShort(null)}
+        >
+          <div
+            className="relative w-full max-w-md md:max-w-lg rounded-2xl overflow-hidden border border-white/15 bg-black"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              onClick={() => setActiveShort(null)}
+              className="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-colors"
+              aria-label="Close video modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <video
+              src={activeShort.videoSrc}
+              controls
+              autoPlay
+              playsInline
+              className="w-full max-h-[85vh] object-contain bg-black"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

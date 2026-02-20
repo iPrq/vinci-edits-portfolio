@@ -3,6 +3,7 @@ import { LiquidBackground } from './components/LiquidBackground';
 import SpotlightCard from '../import-components/SpotlightCard';
 import { ShortsSection } from './components/ShortFormSection';
 import logo from '../assets/log.png';
+import logo2 from '../assets/logo2.png';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
             width="auto"
             height="auto"
             borderRadius={50}
+            borderWidth={0}
             displace={0.5}
             distortionScale={-180}
             redOffset={0}
@@ -27,12 +29,13 @@ export default function App() {
             brightness={20}
             opacity={0.3}
             mixBlendMode="screen"
-            className="px-12 py-4 min-w-fit"
+            className="px-12 py-1 min-w-fit"
           >
             <nav className="flex items-center gap-8">
               
-              <a className="text-white/60 hover:text-white/80 transition-colors whitespace-nowrap cursor-pointer">
-                Vinci Edits
+              <a className="text-white/60 hover:text-white/80 transition-colors whitespace-nowrap cursor-pointer inline-flex items-center justify-center gap-3 leading-none">
+                <img src={logo2} alt="Vinci Edits logo" className="w-9 h-9 object-contain shrink-0" />
+                <span className="leading-none">Vinci Edits</span>
               </a>
 
               <div className="w-px h-6 bg-white/15" />
@@ -84,10 +87,7 @@ export default function App() {
 
         {/* ===== About Me Section ===== */}
         <section className="flex justify-center px-6 pb-24 pt-40">
-          <SpotlightCard 
-            className="max-w-6xl w-full"
-            spotlightColor="rgba(192, 132, 252, 0.35)"
-          >
+          <SpotlightCard className="max-w-6xl w-full p-12">
             
             <div className="flex flex-col md:flex-row items-center gap-10">
               
