@@ -5,6 +5,7 @@ import ClickSpark from '@/components/ClickSpark';
 import SpotlightCard from '../import-components/SpotlightCard';
 import { ShortsSection } from './components/ShortFormSection';
 import { PostsSection } from './components/PostsSection';
+import { ThumbnailsSection } from './components/ThumbnailsSection';
 import { ContactSection } from './components/ContactSection';
 
 export default function App() {
@@ -21,7 +22,7 @@ export default function App() {
           <Navbar logo={logo2} />
           
           {/* ===== Hero Statement ===== */}
-          <main className="flex-1 flex flex-col items-center justify-center px-6 text-center pt-60 pb-16">
+          <main className="flex-1 flex flex-col items-center justify-center px-6 text-center min-h-screen pt-32 pb-16">
           
           <h1 className="
             text-3xl md:text-5xl
@@ -117,9 +118,10 @@ export default function App() {
           </SpotlightCard>
         </section>
 
-        <div id="works">
+        <div id="works" className="mt-15">
           <ShortsSection />
           <PostsSection />
+          <ThumbnailsSection />
         </div>
         
         <div id="contact">

@@ -9,8 +9,8 @@ export function Navbar({ logo }: { logo: string }) {
 
   const tabs = [
     { id: 'home', label: 'Vinci Edits', href: '#about' },
-    { id: 'contact', label: 'Contact', href: '#contact' },
-    { id: 'works', label: 'My Works', href: '#works' }
+    { id: 'works', label: 'My Works', href: '#works' },
+    { id: 'contact', label: 'Contact', href: '#contact' }
   ];
 
   const updateIndicator = (element: HTMLElement) => {
@@ -22,6 +22,48 @@ export function Navbar({ logo }: { logo: string }) {
   };
 
   useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 3; // Check a bit higher up
+
+      // Get all sections
+      const sections = tabs.map(tab => {
+        const id = tab.href.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+           return { 
+             id: tab.id, 
+             offsetTop: element.offsetTop, 
+             height: element.offsetHeight 
+           };
+        }
+        return null;
+      }).filter((s): s is { id: string, offsetTop: number, height: number } => s !== null);
+
+      // Iterate through sections to find the current one
+      // We check if the scroll + offset is past the section top
+      // We iterate backwards to prioritize lower sections if multiple match (though with range check usually only one matches)
+      // Or simply find the last section whose top is above the scroll line
+      
+      let currentSectionId = 'home';
+      
+      for (const section of sections) {
+          // If the scroll position is within this section
+          if (scrollPosition >= section.offsetTop && scrollPosition < section.offsetTop + section.height) {
+              currentSectionId = section.id;
+              break; 
+          }
+      }
+      
+      setActiveTab(currentSectionId);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
         const index = tabs.findIndex((t) => t.id === activeTab);
         const el = itemsRef.current[index];
@@ -30,7 +72,7 @@ export function Navbar({ logo }: { logo: string }) {
         }
     }, 100);
     return () => clearTimeout(timer);
-  }, []); 
+  }, [activeTab]); 
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-center">
