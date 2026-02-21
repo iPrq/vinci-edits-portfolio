@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Play, X, Instagram } from 'lucide-react';
 import instagramLinks from '../../data/instagram-links.json';
 
@@ -36,25 +36,36 @@ export const shorts: Short[] = [
 ];
 
 export function YouTubeShortsCarousel() {
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [activeShort, setActiveShort] = useState<Short | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [activeShort, setActiveShort] = useState<Short | null>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener('resize', checkScroll);
+    return () => window.removeEventListener('resize', checkScroll);
+  }, []);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
       const scrollAmount = 272; // width of one card + gap
       const newPosition = direction === 'left' 
-        ? Math.max(0, scrollPosition - scrollAmount)
-        : Math.min(
-            scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth,
-            scrollPosition + scrollAmount
-          );
+        ? scrollContainerRef.current.scrollLeft - scrollAmount
+        : scrollContainerRef.current.scrollLeft + scrollAmount;
       
       scrollContainerRef.current.scrollTo({
         left: newPosition,
         behavior: 'smooth'
       });
-      setScrollPosition(newPosition);
     }
   };
 
@@ -63,8 +74,8 @@ export function YouTubeShortsCarousel() {
       {/* Left Arrow */}
       <button 
         onClick={() => handleScroll('left')}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all opacity-0 group-hover:opacity-100"
-        disabled={scrollPosition === 0}
+        disabled={!canScrollLeft}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed"
       >
         <ChevronLeft className="w-6 h-6 text-white" />
       </button>
@@ -72,7 +83,8 @@ export function YouTubeShortsCarousel() {
       {/* Right Arrow */}
       <button 
         onClick={() => handleScroll('right')}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all opacity-0 group-hover:opacity-100"
+        disabled={!canScrollRight}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed"
       >
         <ChevronRight className="w-6 h-6 text-white" />
       </button>
@@ -80,6 +92,7 @@ export function YouTubeShortsCarousel() {
       {/* Scrollable Container */}
       <div 
         ref={scrollContainerRef}
+        onScroll={checkScroll}
         className="flex gap-3 overflow-x-auto scrollbar-hide scroll-smooth px-2 py-2"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >

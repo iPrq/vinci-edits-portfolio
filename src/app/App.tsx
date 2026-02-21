@@ -47,7 +47,7 @@ export default function App() {
             font-medium
             tracking-wide
           ">
-            Video Editing for Brands & Creators
+            Video Editing/Photoshop for Brands & Creators
           </p>
 
         </main>

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import SpotlightCard from '../../import-components/SpotlightCard';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
@@ -102,6 +102,22 @@ export function ThumbnailsSection() {
 
 function ThumbnailsCarousel({ onSelect }: { onSelect: (thumb: typeof thumbnails[0]) => void }) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10); // buffer
+    }
+  };
+
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener('resize', checkScroll);
+    return () => window.removeEventListener('resize', checkScroll);
+  }, []);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -115,7 +131,8 @@ function ThumbnailsCarousel({ onSelect }: { onSelect: (thumb: typeof thumbnails[
       {/* Scroll Controls */}
       <button 
         onClick={() => scroll('left')}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 p-2 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-white opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-white/20 disabled:opacity-0"
+        disabled={!canScrollLeft}
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 p-2 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-white opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-white/20 disabled:opacity-0 disabled:cursor-not-allowed"
         aria-label="Scroll left"
       >
         <ChevronLeft className="w-6 h-6" />
@@ -123,7 +140,8 @@ function ThumbnailsCarousel({ onSelect }: { onSelect: (thumb: typeof thumbnails[
 
       <button 
         onClick={() => scroll('right')}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 p-2 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-white opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-white/20 disabled:opacity-0"
+        disabled={!canScrollRight}
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 p-2 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-white opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-white/20 disabled:opacity-0 disabled:cursor-not-allowed"
         aria-label="Scroll right"
       >
         <ChevronRight className="w-6 h-6" />
@@ -132,6 +150,7 @@ function ThumbnailsCarousel({ onSelect }: { onSelect: (thumb: typeof thumbnails[
       {/* Carousel Container */}
       <div 
         ref={scrollRef}
+        onScroll={checkScroll}
         className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide px-1"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
