@@ -4,7 +4,7 @@ export function LiquidBackground() {
   return (
     <div className="fixed inset-0 -z-10 bg-slate-950">
       <LiquidEther
-        mouseForce={12}          // ✅ less mouse dominance
+        mouseForce={30}          // ✅ less mouse dominance
         cursorSize={120}
 
         isViscous                // ✅ enable thicker liquid
@@ -17,11 +17,11 @@ export function LiquidBackground() {
         ]}
 
         autoDemo                 // ✅ continuous animation
-        autoSpeed={0.9}          // ✅ faster constant flow
-        autoIntensity={3.2}      // ✅ more liquid energy
+        autoSpeed={1.5}          // ✅ faster constant flow
+        autoIntensity={2.2}      // ✅ more liquid energy
 
         isBounce={false}
-        resolution={0.5}
+        resolution={0.4}
       />
     </div>
   );
