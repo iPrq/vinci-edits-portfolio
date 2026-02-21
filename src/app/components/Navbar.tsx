@@ -4,6 +4,8 @@ import ClickSpark from '@/components/ClickSpark';
 export function Navbar({ logo }: { logo: string }) {
   const [activeTab, setActiveTab] = useState('home');
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 });
+  const isManualScroll = useRef(false);
+  const scrollTimeout = useRef<string | number | undefined>(undefined);
   
   const itemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
@@ -23,6 +25,9 @@ export function Navbar({ logo }: { logo: string }) {
 
   useEffect(() => {
     const handleScroll = () => {
+      // If we are scrolling manually (clicked a link), ignore scroll events
+      if (isManualScroll.current) return;
+
       const scrollPosition = window.scrollY + window.innerHeight / 3; // Check a bit higher up
 
       // Get all sections
@@ -122,6 +127,15 @@ export function Navbar({ logo }: { logo: string }) {
                     href={tab.href}
                     ref={(el) => { itemsRef.current[idx] = el; }}
                     onClick={(e) => {
+                        // Set manual scroll flag
+                        isManualScroll.current = true;
+                        if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+                        
+                        // Reset flag after animation (approx 1s)
+                        scrollTimeout.current = setTimeout(() => {
+                            isManualScroll.current = false;
+                        }, 1000);
+
                         setActiveTab(tab.id);
                         setIndicatorStyle({
                             left: e.currentTarget.offsetLeft,

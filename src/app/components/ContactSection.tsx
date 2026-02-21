@@ -1,8 +1,58 @@
-import React from 'react';
-import { Phone, Mail, Github, Send, ArrowRight } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Phone, Mail, Instagram, Send, Loader2, CheckCircle2, XCircle } from 'lucide-react';
 import { BlockGlassSurface } from './BlockGlassSurface';
 
 export function ContactSection() {
+  const form = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.current) return;
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    // FormSubmit.co Integration
+    
+    const ENDPOINT = "https://formsubmit.co/ajax/ayushkumarshawmmmm@gmail.com";
+
+    try {
+        const formData = {
+            name: (form.current.elements.namedItem('user_name') as HTMLInputElement).value,
+            email: (form.current.elements.namedItem('user_email') as HTMLInputElement).value,
+            message: (form.current.elements.namedItem('message') as HTMLTextAreaElement).value,
+            _subject: "New Portfolio Inquiry!",
+            _template: "table",
+            _captcha: "false"
+        };
+        
+      const response = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        if (form.current) form.current.reset();
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Form Error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+      // Reset status after 5 seconds
+      setTimeout(() => setSubmitStatus('idle'), 5000);
+    }
+  };
+
   return (
     <footer className="w-full mt-32">
       <BlockGlassSurface
@@ -36,20 +86,20 @@ export function ContactSection() {
             <div className="relative z-10 mt-10 space-y-5">
               <CompactContactItem
                 icon={<Phone className="w-5 h-5" />}
-                text="+91 7738443636"
-                href="tel:+917738443636"
+                text="+91 8218277039"
+                href="tel:+918218277039"
                 label="Call Me"
               />
               <CompactContactItem
                 icon={<Mail className="w-5 h-5" />}
-                text="Jaycrea36@gmail.com"
-                href="mailto:Jaycrea36@gmail.com"
+                text="ayushkumarshawmmmm@gmail.com"
+                href="mailto:ayushkumarshawmmmm@gmail.com"
                 label="Email Me"
               />
               <CompactContactItem
-                icon={<Github className="w-5 h-5" />}
-                text="github.com/yourusername"
-                href="https://github.com/yourusername"
+                icon={<Instagram className="w-5 h-5" />}
+                text="@vinci_editor"
+                href="https://www.instagram.com/vinci_editor?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                 label="Follow Me"
               />
             </div>
@@ -58,14 +108,17 @@ export function ContactSection() {
           {/* Right Side: Form (7 Columns) */}
           <div className="lg:col-span-7 p-8 md:p-12 lg:pr-16 bg-white/[0.01] flex items-center relative">
             
-            <form className="w-full max-w-2xl mx-auto space-y-5 relative z-10" onSubmit={(e) => e.preventDefault()}>
+            <form ref={form} className="w-full max-w-2xl mx-auto space-y-5 relative z-10" onSubmit={handleSubmit}>
               
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Name</label>
                 <input
                   type="text"
+                  name="user_name"
                   placeholder="John Doe"
-                  className="w-full px-4 py-3 bg-white/[0.03] hover:bg-white/[0.06] focus:bg-white/[0.08] rounded-xl border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all duration-300"
+                  required
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 bg-white/[0.03] hover:bg-white/[0.06] focus:bg-white/[0.08] rounded-xl border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
@@ -73,38 +126,71 @@ export function ContactSection() {
                 <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Email</label>
                 <input
                   type="email"
+                  name="user_email"
                   placeholder="john@example.com"
-                  className="w-full px-4 py-3 bg-white/[0.03] hover:bg-white/[0.06] focus:bg-white/[0.08] rounded-xl border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all duration-300"
+                  required
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 bg-white/[0.03] hover:bg-white/[0.06] focus:bg-white/[0.08] rounded-xl border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Project Details</label>
                 <textarea
+                  name="message"
                   rows={4}
                   placeholder="Tell me about your vision..."
-                  className="w-full px-4 py-3 bg-white/[0.03] hover:bg-white/[0.06] focus:bg-white/[0.08] rounded-xl border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all duration-300 resize-none"
+                  required
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 bg-white/[0.03] hover:bg-white/[0.06] focus:bg-white/[0.08] rounded-xl border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all duration-300 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
 
               <div className="pt-2">
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="
                     group
                     w-full
-                    flex items-center justify-center gap-2
-                    bg-gradient-to-r from-white to-white/90 
-                    hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400
-                    text-black hover:text-white
-                    py-3.5 rounded-xl
-                    text-xs font-bold uppercase tracking-widest
+                    relative
+                    overflow-hidden
+                    flex items-center justify-center gap-3
+                    bg-white
+                    text-black 
+                    hover:text-white
+                    py-4 rounded-xl
+                    text-sm font-semibold tracking-wide
                     transition-all duration-300
-                    transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]
+                    hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] hover:scale-[1.02]
+                    disabled:opacity-70 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none
                   "
                 >
-                  Send Message
-                  <Send className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-purple-600 group-hover:text-white ml-1" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  <div className="relative flex items-center gap-2">
+                    {isSubmitting ? (
+                      <>
+                        <span className="opacity-90">Sending...</span>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      </>
+                    ) : submitStatus === 'success' ? (
+                      <>
+                        <span className="opacity-90">Message Sent!</span>
+                        <CheckCircle2 className="w-5 h-5 text-green-500 group-hover:text-white" />
+                      </>
+                    ) : submitStatus === 'error' ? (
+                      <>
+                        <span className="opacity-90">Failed - Try Again</span>
+                        <XCircle className="w-5 h-5 text-red-500 group-hover:text-white" />
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform text-purple-600 group-hover:text-white" />
+                      </>
+                    )}
+                  </div>
                 </button>
               </div>
 

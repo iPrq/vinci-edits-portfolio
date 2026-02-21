@@ -72,7 +72,7 @@ export default function App() {
                   <img
                     src={logo}
                     alt="Logo"
-                    className="w-32 h-32 object-contain"
+                    className="w-full h-full object-cover rounded-full"
                   />
                 </div>
               </div>
